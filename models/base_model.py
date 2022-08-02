@@ -25,22 +25,26 @@ class BaseModel:
         Returns string representation of the class
         [<class name>] (<self.id>) <self.__dict__>
         """
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
-    
+        return "[{}] ({}) {}".format(
+                                    self.__class__.__name__,
+                                    self.id, self.__dict__)
+
     def save(self):
         """
-        Updates the public instance attribute updated_at with the current datetime
+        Updates the public instance attribute updated_at
+        with the current datetime
         """
         self.updated_at = datetime.now()
 
     def to_dict(self):
         """
-        Returns a dictionary containing all keys/values of __dict__ of the instance
+        Returns a dictionary containing all keys/values
+        of __dict__ of the instance
         """
         dict_r = {}
         dict_r["__class__"] = self.__class__.__name__
         for key, value in self.__dict__.items():
-            if key == "created_at" or key == "updated_at": 
+            if key == "created_at" or key == "updated_at":
                 dict_r[key] = value.isoformat()
             else:
                 dict_r[key] = value
