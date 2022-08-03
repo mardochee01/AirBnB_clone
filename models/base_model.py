@@ -3,6 +3,7 @@
 Module that implements the BaseModel class
 """
 
+
 from uuid import uuid4
 from datetime import datetime
 
@@ -12,13 +13,23 @@ class BaseModel:
     Class that defines all common attributes/methods for other classes
     """
 
-    def __init__(self):
+    def __init__(self, *keys, **kwkeys):
         """
         Initialize the BaseModel class
         """
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwkeys:
+            for key, value in kwkeys.items():
+                if key in ('created_at', 'updated_at'):
+                    print("i Got it !", key)
+                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+
+                if key != '__class__':
+                    exec("self.{} = '{}'".format(key, value))
+        else:
+            self.id = uuid4().hex
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at
+
 
     def __str__(self):
         """
@@ -38,14 +49,12 @@ class BaseModel:
 
     def to_dict(self):
         """
-        Returns a dictionary containing all keys/values
+        Returns a dictionary containing all keys/valueues
         of __dict__ of the instance
         """
-        dict_r = {}
-        dict_r["__class__"] = self.__class__.__name__
-        for key, value in self.__dict__.items():
-            if key == "created_at" or key == "updated_at":
-                dict_r[key] = value.isoformat()
-            else:
-                dict_r[key] = value
-            return dict_r
+        dict_r = self.__dict__.copy()
+        dict_r['__class__'] = self.__class__.__name__
+        dict_r['created_at'] = self.created_at.isoformat()
+        dict_r['updated_at'] = self.updated_at.isoformat()
+
+        return dict_r
