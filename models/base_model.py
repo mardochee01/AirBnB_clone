@@ -12,7 +12,7 @@ class BaseModel:
     Class that defines all common attributes/methods for other classes
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
         """
         Initialize the BaseModel class
         """
@@ -41,11 +41,8 @@ class BaseModel:
         Returns a dictionary containing all keys/values
         of __dict__ of the instance
         """
-        dict_r = {}
+        dict_r = self.__dict__.copy()
         dict_r["__class__"] = self.__class__.__name__
-        for key, value in self.__dict__.items():
-            if key == "created_at" or key == "updated_at":
-                dict_r[key] = value.isoformat()
-            else:
-                dict_r[key] = value
-            return dict_r
+        dict_r["created_at"] = self.created_at.isoformat()
+        dict_r["updated_at"] = self.updated_at.isoformat()
+        return dict_r
