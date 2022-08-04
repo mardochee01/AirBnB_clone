@@ -13,12 +13,12 @@ class BaseModel:
     Class that defines all common attributes/methods for other classes
     """
 
-    def __init__(self, *keys, **kwkeys):
+    def __init__(self, *args, **kwargs):
         """
         Initialize the BaseModel class
         """
-        if kwkeys:
-            for key, value in kwkeys.items():
+        if kwargs:
+            for key, value in kwargs.items():
                 if key in ('created_at', 'updated_at'):
                     print("i Got it !", key)
                     value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
@@ -49,7 +49,7 @@ class BaseModel:
 
     def to_dict(self):
         """
-        Returns a dictionary containing all keys/valueues
+        Returns a dictionary containing all keys/values
         of __dict__ of the instance
         """
         dict_r = self.__dict__.copy()
