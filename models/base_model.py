@@ -5,6 +5,7 @@ Module that implements the BaseModel class
 
 from uuid import uuid4
 from datetime import datetime
+from models import storage
 
 
 class BaseModel:
@@ -19,6 +20,7 @@ class BaseModel:
         date_format = '%Y-%m-%dT%H:%M:%S.%f'
         self.id = str(uuid4())
         self.created_at = self.updated_at = datetime.now()
+        storage.new(self)
         if len(kwargs) != 0:
             for key, value in kwargs.items():
                 if key != '__class__':
@@ -42,6 +44,7 @@ class BaseModel:
         with the current datetime
         """
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
