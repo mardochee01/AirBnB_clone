@@ -8,6 +8,7 @@ import json
 
 from models.base_model import BaseModel
 
+
 class FileStorage:
     """
     Class that serializes instances to a JSON file
@@ -30,7 +31,7 @@ class FileStorage:
 
     def save(self):
         """
-        serializes __objects to the JSON 
+        serializes __objects to the JSON
         file (path: __file_path)
         """
         with open(self.__file_path, mode="w") as f:
@@ -41,7 +42,7 @@ class FileStorage:
 
     def reload(self):
         """
-        deserializes the JSON file to __objects 
+        deserializes the JSON file to __objects
         (only if the JSON file (__file_path) exists ;
         """
         try:
