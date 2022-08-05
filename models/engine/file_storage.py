@@ -3,6 +3,11 @@
 Module that serializes and deserializes JSON file
 """
 
+
+import json
+
+from models.base_model import BaseModel
+
 class FileStorage:
     """
     Class that serializes instances to a JSON file
@@ -22,3 +27,17 @@ class FileStorage:
         """
         key = "{}.{}".format(obj.__class.__name, obj.id)
         self.__object[key] = obj
+
+    def save(self):
+        """
+        serializes __objects to the JSON 
+        file (path: __file_path)
+        """
+        with open(self.__file_path, mode="w") as f:
+            dict_storage = {}
+            for key, value in self.__objects.items():
+                dict_storage[key] = value.to_dict()
+            json.dump(dict_storage, f)
+
+    def reload(self):
+        
