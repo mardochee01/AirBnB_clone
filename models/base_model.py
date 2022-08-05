@@ -17,6 +17,8 @@ class BaseModel:
         Initialize the BaseModel class
         """
         date_format = '%Y-%m-%dT%H:%M:%S.%f'
+        self.id = str(uuid4())
+        self.created_at = self.updated_at = datetime.now()
         if len(kwargs) != 0:
             for key, value in kwargs.items():
                 if key != '__class__':
@@ -24,9 +26,6 @@ class BaseModel:
                 if key == "created_at" or key == "updated_at":
                     self.__dict__[key] = datetime.strptime(
                             value, date_format)
-        else:
-            self.id = str(uuid4())
-            self.created_at = self.updated_at = datetime.now()
 
     def __str__(self):
         """
