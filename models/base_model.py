@@ -17,18 +17,16 @@ class BaseModel:
         """
         Initialize the BaseModel class
         """
-        if kwargs:
+        date_format = '%Y-%m-%dT%H:%M:%S.%f'
+        self.id = str(uuid4())
+        self.created_at = self.updated_at = datetime.now()
+        if len(kwargs) != 0:
             for key, value in kwargs.items():
-                if key in ('created_at', 'updated_at'):
-                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
-
                 if key != '__class__':
-                    exec("self.{} = '{}'".format(key, value))
-        else:
-            self.id = uuid4().hex
-            self.created_at = datetime.now()
-            self.updated_at = self.created_at
-
+                    self.__dict__[key] = value
+                if key == "created_at" or key == "updated_at":
+                    self.__dict__[key] = datetime.strptime(
+                            value, date_format)
 
     def __str__(self):
         """
@@ -52,8 +50,7 @@ class BaseModel:
         of __dict__ of the instance
         """
         dict_r = self.__dict__.copy()
-        dict_r['__class__'] = self.__class__.__name__
-        dict_r['created_at'] = self.created_at.isoformat()
-        dict_r['updated_at'] = self.updated_at.isoformat()
-
+        dict_r["__class__"] = self.__class__.__name__
+        dict_r["created_at"] = self.created_at.isoformat()
+        dict_r["updated_at"] = self.updated_at.isoformat()
         return dict_r
