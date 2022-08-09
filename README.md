@@ -54,5 +54,5 @@ $
 ```
 
 # AUTHORS
-* Mardochée GNERAN
-* Abdoul MAHAM 
+* Mardochée GNERAN (@mardochee01)
+* Abdul MAHAM (@iamMAHAM)
